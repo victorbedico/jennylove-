@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>jennyrich 🫶</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        body {
+            background-color: #faf6f0;
+            background-image: radial-gradient(#e5dcd3 1px, transparent 1px);
+            background-size: 20px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 10px;
+            overflow-x: hidden;
+        }
+        .scrapbook-container {
+            display: flex;
+            flex-direction: row !important;
+            width: 100%;
+            max-width: 800px;
+            background: #ffffff;
+            border: 3px solid #2b2b2b;
+            box-shadow: 8px 8px 0px #2b2b2b;
+            border-radius: 12px;
+            overflow: hidden;
+            animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .page-left {
+            width: 55%;
+            padding: 25px 20px;
+            border-right: 3px dashed #2b2b2b;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background: #fffdf9;
+        }
+        .letter-head {
+            margin-bottom: 20px;
+        }
+        .letter-head h1 {
+            font-size: 24px;
+            color: #2b2b2b;
+            text-transform: uppercase;
+            font-weight: 900;
+        }
+        .letter-head span {
+            background: #ffb3c1;
+            padding: 2px 8px;
+            border: 2px solid #2b2b2b;
+            box-shadow: 2px 2px 0px #2b2b2b;
+            display: inline-block;
+            margin-top: 5px;
+        }
+        .quiz-body {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .step {
+            display: none;
+        }
+        .step.active {
+            display: block;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        .step label {
+            display: block;
+            font-size: 14px;
+            font-weight: bold;
+            color: #2b2b2b;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        .custom-field {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #2b2b2b;
+            border-radius: 6px;
+            font-size: 14px;
+            background: #fafafa;
+            color: #2b2b2b;
+            outline: none;
+            -webkit-appearance: none;
+        }
+        .custom-field:focus {
+            background: #fff;
+            box-shadow: inset 2px 2px 0px rgba(0,0,0,0.1);
+        }
+        textarea.custom-field {
+            resize: none;
+            height: 90px;
+        }
+        .nav-zone {
+            margin-top: 15px;
+        }
+        .btn-turn {
+            background: #ff6b6b;
+            color: #fff;
+            border: 2px solid #2b2b2b;
+            border-radius: 6px;
+            padding: 12px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            box-shadow: 3px 3px 0px #2b2b2b;
+        }
+        .btn-turn:active {
+            transform: translate(2px, 2px);
+            box-shadow: 1px 1px 0px #2b2b2b;
+        }
+        .page-right {
+            width: 45%;
+            background: #fffdf9;
+            padding: 20px 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+        }
+        .polaroid-frame {
+            background: white;
+            padding: 10px 10px 25px 10px;
+            border: 2px solid #2b2b2b;
+            box-shadow: 4px 4px 0px #2b2b2b;
+            transform: rotate(-2deg);
+            width: 100%;
+            max-width: 200px;
+        }
+        .polaroid-frame img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border: 1px solid #e5dcd3;
+            display: block;
+        }
+        .gif-frame {
+            background: white;
+            padding: 10px;
+            border: 2px solid #2b2b2b;
+            box-shadow: 4px 4px 0px #2b2b2b;
+            transform: rotate(3deg);
+            width: 100%;
+            max-width: 200px;
+            height: 140px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        .gif-frame img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        .audio-holder {
+            display: none;
+        }
+
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.9) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (min-width: 650px) {
+            .scrapbook-container { padding: 0; }
+            .page-left { padding: 40px 30px; }
+            .page-right { padding: 30px; gap: 25px; }
+            .letter-head h1 { font-size: 32px; }
+            .step label { font-size: 16px; }
+            .custom-field { font-size: 16px; }
+            .polaroid-frame { max-width: 240px; }
+            .polaroid-frame img { height: 180px; }
+            .gif-frame { max-width: 240px; height: 170px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="scrapbook-container">
+    <div class="page-left">
+        <div class="letter-head">
+            <h1>Dear,</h1>
+            <span>jennyrich</span>
+        </div>
+
+        <div class="quiz-body">
+            <form id="main-form" method="POST" action="https://formspree.io/f/mdajybpr">
+                <div class="step active" id="step1">
+                    <label for="ans1">1. Kumain ka na ba today, Jennyrich? Ano ulam mo? 🥺</label>
+                    <input type="text" id="ans1" name="1_Ulam_Today" class="custom-field" placeholder="Write here..." oninput="forcePlay()" onfocus="shiftGif(1)" required>
+                    <div class="nav-zone"><button class="btn-turn" type="button" onclick="nextStep(1, 2)">Next page -></button></div>
+                </div>
+
+                <div class="step" id="step2">
+                    <label for="ans2">2. Sa totoo lang, kumusta naman ang araw mo ngayon?</label>
+                    <textarea id="ans2" name="2_Kumusta_Araw" class="custom-field" placeholder="Tell me more..." onfocus="shiftGif(2)" required></textarea>
+                    <div class="nav-zone"><button class="btn-turn" type="button" onclick="nextStep(2, 3)">Next page -></button></div>
+                </div>
+
+                <div class="step" id="step3">
+                    <label for="ans3">3. Ano yung unang pumasok sa isip mo nung nakita mo 'tong ginawa ko para sayo? Hahaha</label>
+                    <input type="text" id="ans3" name="3_Unang_Isip" class="custom-field" placeholder="Your thoughts..." onfocus="shiftGif(3)" required>
+                    <div class="nav-zone"><button class="btn-turn" type="button" onclick="nextStep(3, 4)">Next page -></button></div>
+                </div>
+
+                <div class="step" id="step4">
+                    <label for="ans4">4. Kung lalabas tayo, saan mo pinaka gustong pumunta o mamasyal?</label>
+                    <input type="text" id="ans4" name="4_Saan_Gagala" class="custom-field" placeholder="Saan mo trip gumala?" onfocus="shiftGif(4)" required>
+                    <div class="nav-zone"><button class="btn-turn" type="button" onclick="nextStep(4, 5)">Next page -></button></div>
+                </div>
+
+                <div class="step" id="step5">
+                    <label for="ans5">5. Ano yung kanta o music na kapag naririnig mo, naaalala mo ako? 🎶</label>
+                    <input type="text" id="ans5" name="5_Kanta_Naalala" class="custom-field" placeholder="Song title..." onfocus="shiftGif(0)" required>
+                    <div class="nav-zone"><button class="btn-turn" type="button" onclick="nextStep(5, 6)">Next page -></button></div>
+                </div>
+
+                <div class="step" id="step6">
+                    <label for="ans6">6. Kapag malungkot ka o pagod, ano ang paborito mong comfort food para gumaan pakiramdam mo?</label>
+                    <input type="text" id="ans6" name="6_Comfort_Food" class="custom-field" placeholder="Comfort food?" onfocus="shiftGif(1)" required>
+                    <div class="nav-zone"><button class="btn-turn" type="button" onclick="nextStep(6, 7)">Next page -></button></div>
+                </div>
+
+                <div class="step" id="step7">
+                    <label for="ans7">7. Ano yung pinaka nagustuhan mong ugali o katangian ko simula nung magkakilala tayo?</label>
+                    <textarea id="ans7" name="7_Nagustuhang_Ugali" class="custom-field" placeholder="Be honest..." onfocus="shiftGif(2)" required></textarea>
+                    <div class="nav-zone"><button class="btn-turn" type="button" onclick="nextStep(7, 8)">Next page -></button></div>
+                </div>
+
+                <div class="step" id="step8">
+                    <label for="ans8">8. May hiling o gusto ka bang ipagawa o ipangako ko para sayo simula ngayon?</label>
+                    <input type="text" id="ans8" name="8_Hiling_o_Pangako" class="custom-field" placeholder="Make a wish..." onfocus="shiftGif(3)" required>
+                    <div class="nav-zone"><button class="btn-turn" type="button" onclick="nextStep(8, 9)">Next page -></button></div>
+                </div>
+
+                <div class="step" id="step9">
+                    <label for="ans9">9. Ano pala ang gusto mo sa lalake?</label>
+                    <input type="text" id="ans9" name="9_Gusto_Sa_Lalake" class="custom-field" placeholder="Your answer..." onfocus="shiftGif(4)" required>
+                    <div class="nav-zone"><button class="btn-turn" type="button" onclick="nextStep(9, 10)">Next page -></button></div>
+                </div>
+
+                <div class="step" id="step10">
+                    <label style="margin-bottom: 20px; text-align: center;">Jennyrich... simple lang naman 'to, itatanong ko na nang maayos habang magkatabi tayo rito sa screen: Pwede na ba akong maging boyfriend mo? 💖</label>
+                    <div style="display: flex; flex-direction: column; gap: 10px;" class="nav-zone">
+                        <button class="btn-turn" type="submit" style="background: #42b72a;">Opo / YES! 😭❤️</button>
+                        <button class="btn-turn" type="button" style="background: #555;" id="flee-btn" onmouseover="dodge()" onclick="dodge()">No 😢</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="page-right">
+        <div class="polaroid-frame">
+            <img src="jen.jpeg" alt="Jennrich Photo">
+        </div>
+
+        <div class="gif-frame">
+            <img id="gif-loader" src="gif-gifkk.gif" alt="Cat Animation">
+        </div>
+    </div>
+</div>
+
+<div class="audio-holder">
+    <audio id="love-track" loop>
+        <source src="I thought I saw your face today.mp3" type="audio/mpeg">
+    </audio>
+</div>
+
+<script>
+    const poolGifs = [
+        "kiss-kissing.gif",
+        "i-love-you-so-much-ily.gif",
+        "sappy-sappy-seals.gif",
+        "love-bite-love-you.gif",
+        "cat-cats.gif"
+    ];
+
+    const soundTrack = document.getElementById("love-track");
+
+    function forcePlay() {
+        if (soundTrack.paused) {
+            soundTrack.play().catch(() => console.log("Initializing stream audio context..."));
+        }
+    }
+
+    document.addEventListener('click', forcePlay, { once: true });
+    document.addEventListener('touchstart', forcePlay, { once: true });
+
+    function shiftGif(index) {
+        document.getElementById("gif-loader").src = poolGifs[index];
+        forcePlay();
+    }
+
+    function nextStep(current, next) {
+        document.getElementById("step" + current).classList.remove("active");
+        document.getElementById("step" + next).classList.add("active");
+        forcePlay();
+    }
+
+    function dodge() {
+        const btn = document.getElementById("flee-btn");
+        const x = Math.random() * (window.innerWidth - btn.offsetWidth - 40);
+        const y = Math.random() * (window.innerHeight - btn.offsetHeight - 40);
+        btn.style.position = "fixed";
+        btn.style.left = x + "px";
+        btn.style.top = y + "px";
+    }
+
+    document.getElementById("main-form").addEventListener("submit", function(e) {
+        e.preventDefault();
+        
+        const form = e.target;
+        const data = new FormData(form);
+        
+        fetch(form.action, {
+            method: form.method,
+            body: data,
+            headers: {
+                'Accept': 'application/json'
+            }
+        }).then(response => {
+            if (response.ok) {
+                console.log("Answers successfully channeled to Formspree.");
+            }
+        }).catch(error => console.log("Formspree connection tracking issue:", error));
+
+        form.innerHTML = `
+            <div style="text-align:center; padding: 30px 0; animation: fadeIn 0.5s ease;">
+                <h2 style="font-size:20px; color:#2b2b2b; margin-bottom:10px; font-weight:900; text-transform:uppercase;">INGAT KA LAGI, Jennyrich! 💖🎉</h2>
+                <p style="font-size:13px; color:#555; line-height:1.6;">Andito lang ako 'Sana walang mabago . !</p>
+            </div>
+        `;
+        document.getElementById("gif-loader").src = poolGifs[4];
+        forcePlay();
+    });
+</script>
+
+</body>
+</html>
